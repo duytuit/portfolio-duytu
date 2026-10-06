@@ -99,3 +99,40 @@ if (window.gsap) {
     return () => hero.classList.remove('gsap-animated');
   });
 }
+
+// Lightweight scroll feedback; one frame at most per scroll event.
+const readingProgress = document.querySelector('[data-reading-progress]');
+let progressScheduled = false;
+function updateReadingProgress() {
+  const distance = document.documentElement.scrollHeight - window.innerHeight;
+  if (readingProgress) readingProgress.style.transform = `scaleX(${distance > 0 ? Math.min(1, Math.max(0, window.scrollY / distance)) : 0})`;
+  progressScheduled = false;
+}
+window.addEventListener('scroll', () => {
+  if (!progressScheduled) { progressScheduled = true; requestAnimationFrame(updateReadingProgress); }
+}, { passive: true });
+window.addEventListener('resize', updateReadingProgress);
+updateReadingProgress();
+
+const sectionLinks = [...document.querySelectorAll('.desktop-nav a:not(.nav-cta), .mobile-sidebar nav a:not(.nav-cta)')];
+if ('IntersectionObserver' in window) {
+  const sections = document.querySelectorAll('main > section[id]');
+  const observer = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      sectionLinks.forEach(link => {
+        const target = link.getAttribute('href') === '/' ? 'home' : link.hash.slice(1);
+        if (target === entry.target.id) link.setAttribute('aria-current', 'location');
+        else link.removeAttribute('aria-current');
+      });
+    }
+  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 });
+  sections.forEach(section => observer.observe(section));
+}
+
+if (window.gsap) {
+  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+    const notes = gsap.utils.toArray('[data-floating-note]');
+    notes.forEach((note, index) => gsap.to(note, { y: index % 2 ? 7 : -7, duration: 2.8 + index * .6, repeat: -1, yoyo: true, ease: 'sine.inOut' }));
+  });
+}

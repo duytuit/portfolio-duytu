@@ -18,6 +18,7 @@
 <link rel="stylesheet" href="~/css/interactions.css" asp-append-version="true" />
 </head>
 <body class="secondary-font">
+<div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
 <partial name="_NavBar" />
 @if (TempData["Notice"] is string notice) { <div role="status" class="notice">@notice</div> }
 @if (TempData["Error"] is string error) { <div role="alert" class="notice error">@error</div> }
