@@ -1,0 +1,55 @@
+@model ProjectPage
+@{ ViewData["Title"] = Model.Title; }
+<div>
+<section id="about" class="w-full max-h-fit py-16 lg:px-32 overflow-hidden border-b border-orange-100">
+<div class="flex md:flex-row flex-col items-start justify-center gap-10">
+<div class="md:w-2/3 p-5 md:p-0">
+<img class="" src="@Model.Image" alt=""/>
+</div>
+<div class="md:w-1/3 flex flex-col gap-10 p-5 md:p-0">
+<div class="shadow-xl border-2 p-8">
+<h1 class="text-3xl font-semibold text-[#7A6960]">Project Information</h1>
+<div class="h-[1px] mt-3 bg-slate-200">
+</div>
+<ul class="mt-3">
+<li>
+<span class="font-semibold ">Category:</span> Software</li>
+<li>
+<span class="font-semibold ">Client:</span> USA</li>
+<li>
+<span class="font-semibold ">Project Date:</span> @DateTime.Today.ToString("d/M/yyyy")</li>
+<li>
+<span class="font-semibold ">Project Url:</span> <span class="text-orange-600">www.example.com</span>
+</li>
+</ul>
+</div>
+<div>
+<h1 class="text-3xl font-semibold text-[#7A6960]">Lorem ipsum dolor sit amet.</h1>
+<p class="mt-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto dicta mollitia, labore deserunt repellat temporibus animi pariatur accusamus enim unde rerum id qui beatae neque, perferendis maxime facilis nulla quos saepe iste non optio quam in! Dolorem hic nulla porro?</p>
+</div>
+<div class="flex items-center justify-center mt-3">
+<a class="" href="/hireus">
+<button class="bg-orange-600 hover:bg-orange-500 hover:shadow hover:shadow-orange-500 text-lg text-slate-50 rounded-3xl px-4 py-2 w-fit transition-all duration-300">Hire Us</button>
+</a>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full max-h-fit py-16 lg:px-32 overflow-hidden bg-[#FEFAF8] border-b border-orange-100">
+<div class="text-[#7A6960]">
+<h1 class="text-3xl font-semibold text-center">Join Our Newsletter</h1>
+<div class="flex justify-center items-center mt-2">
+<div class="bg-orange-600 h-1 w-16 rounded">
+</div>
+</div>
+<p class="text-gray-700 text-center mt-7 mb-10 p-3 md:p-0">Subscribe to our newsletter and receive the latest news about our products and services!</p>
+<form class="w-full flex flex-col md:flex-row justify-center items-center gap-3">
+<input name="email" type="email" placeholder="email@@gmail.com" class="md:w-1/2 w-11/12 px-6 py-3 rounded-3xl outline-none border border-zinc-300 focus:border-orange-600"/>
+<button class="px-4 py-[10px] bg-orange-600 hover:bg-orange-500 rounded-3xl text-slate-50 text-lg hover:shadow hover:shadow-orange-500 transition-all duration-300">Subscribe</button>
+</form>
+</div>
+</section>
+<section class="w-full max-h-fit py-16 lg:px-32 overflow-hidden border-b border-orange-100">
+<partial name="_Footer" />
+</section>
+</div>

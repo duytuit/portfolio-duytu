@@ -1,0 +1,20 @@
+@model ServicePage
+@{ ViewData["Title"] = Model.Title; }
+<div class="secondary-font bg-red-900">
+<div class="md:py-14 lg:px-32 border-b border-orange-100">
+<div class="flex flex-col md:flex-row gap-10 justify-center bg-[#FEFAF8] items-center md:border md:shadow-xl rounded overflow-hidden md:p-16 p-10">
+<div class="w-full md:w-1/2">
+<h1 class="text-[#7A6960] md:text-5xl text-3xl font-semibold">@Model.Title</h1>
+<p class="text-xl mt-10 text-gray-600 primary-font">@Model.Description</p>
+<div class="flex flex-col sm:flex-row items-center mb-12 lg:mb-0 lg:flex-row gap-10 mt-10">
+<a class="" href="/hireus">
+<button class="bg-orange-600 hover:bg-orange-500 hover:shadow hover:shadow-orange-500 text-lg text-slate-50 rounded-3xl px-4 py-2 w-fit transition-all duration-300">Hire Us</button>
+</a>
+</div>
+</div>
+<div class="w-full md:w-1/2">
+<img src="@Model.Image" alt=""/>
+</div>
+</div>
+</div>
+</div>

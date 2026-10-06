@@ -1,0 +1,7 @@
+.mainDiv:hover > div,.mainDiv:focus-within > div{display:block}
+[hidden]{display:none!important}html{scroll-behavior:smooth}summary{list-style:revert}details[open] summary{color:#ea580c}
+.client-slider{overflow:hidden;padding:1rem 0}.client-track{display:flex;width:max-content;animation:client-scroll 30s linear infinite}.client-group{display:flex;align-items:center;flex-shrink:0}.client-slider img{flex-shrink:0}.client-slider:hover .client-track{animation-play-state:paused}
+.animate{animation:hero-float 2s ease-in-out infinite alternate}.notice{padding:1rem;text-align:center;background:#f0fdf4;color:#166534}.notice.error{background:#fef2f2;color:#991b1b}
+.myLink{max-width:100%}a:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid #ea580c;outline-offset:4px}
+@keyframes hero-float{to{transform:translateY(-40px)}}@keyframes client-scroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.animate,.client-track{animation:none}.client-slider{overflow:auto}}
