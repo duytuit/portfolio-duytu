@@ -148,3 +148,17 @@ html[data-theme="dark"]{--accent:#ff936c;--accent-soft:#2e2526;--hero-glow:#7737
 @media(prefers-reduced-motion:reduce){.gradient-word,.portrait-orbit{animation:none}.content-card,.content-card::after,.nav-cta,.desktop-nav a::after,.project-visual>div,.hero-links a span{transition:none}.project-card:hover .project-visual>div:not(.visual-toolbar){transform:none}}
 
 .icon-arrow{display:inline-block;width:16px;height:16px;flex-shrink:0;vertical-align:middle}.hero-portrait figcaption>.icon-arrow{margin-left:auto}.visual-toolbar .icon-arrow{width:12px;height:12px}
+
+/* Restore the original portfolio font sizes. */
+.hero-copy h1{font-size:clamp(2.2rem,5vw,4.5rem);font-weight:600;line-height:1.08;letter-spacing:-.045em}
+.hero-description{font-size:1rem;line-height:1.8}.section-title{font-size:clamp(2rem,4.2vw,3.75rem);font-weight:600;line-height:1.12;letter-spacing:-.04em}
+.content-card .section-title,.project-card .section-title{font-size:clamp(1.5rem,2.6vw,2.25rem)}
+#about .about-stats dt{font-size:clamp(1rem,2.5vw,1.8rem);letter-spacing:normal}
+.project-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s,transform .7s;z-index:1}
+.project-visual.photo-loaded .project-photo{opacity:1}.project-card:hover .project-photo{transform:scale(1.045)}
+.project-visual.photo-loaded .visual-fallback{visibility:hidden}.visual-fallback{height:100%}.photo-label{position:absolute;bottom:12px;left:12px;z-index:2;padding:6px 9px;border-radius:6px;background:#111827c9;color:white;font-size:8px;letter-spacing:.07em;display:none}.photo-loaded .photo-label{display:block}
+.editorial-feature{position:relative;min-height:300px;border-radius:24px;overflow:hidden;margin-top:48px;background:linear-gradient(130deg,#17212e,#334155);color:white;max-width:100%}.editorial-feature>img{width:100%;height:clamp(300px,36vw,440px);object-fit:cover;opacity:0;position:relative;z-index:1;transition:opacity .5s}.editorial-feature.photo-loaded>img{opacity:1}.editorial-feature figcaption{position:absolute;z-index:2;bottom:0;left:0;right:0;padding:22px;background:linear-gradient(transparent,#111827e6);font-size:.7rem;line-height:1.8}.editorial-feature figcaption a{text-decoration:underline;text-underline-offset:4px}.feature-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:32px;padding:32px}.feature-fallback>span{font:700 clamp(3rem,8vw,6rem) ui-monospace,monospace;color:#ff936c}.feature-fallback p{font-size:clamp(1.2rem,3vw,2.4rem);line-height:1.2;font-weight:600}
+.text-word{display:inline-block;vertical-align:top}.text-reveal.is-revealing{overflow:clip}.hero-copy h1 span.text-word{color:inherit}.gradient-word .text-word{color:transparent!important;background:linear-gradient(110deg,#ee5b2b,#f99d57);background-clip:text;-webkit-background-clip:text}
+@media(prefers-reduced-motion:reduce){.project-photo,.editorial-feature>img{transition:none}.project-card:hover .project-photo{transform:none}}
+.desktop-nav a{font-size:1.05rem}.hero-role{font-size:.7rem}.hero-portrait figcaption{font-size:.6rem}#technology .section-copy{font-size:1rem}
+@media(min-width:1024px){.hero-portrait figcaption{font-size:.65rem}}

@@ -7,3 +7,9 @@
 - Ảnh chụp trình duyệt tại viewport 1440×1000 và 390×844 đã được kiểm tra trực quan.
 
 Hình trên các thẻ dự án là minh họa giao diện bằng HTML/CSS, có nhãn concept/interface study; không phải ảnh chụp sản phẩm thật. Không thay đổi số năm kinh nghiệm hoặc thông tin cá nhân của bản code người dùng cập nhật.
+
+## Ảnh minh họa và hiệu ứng chữ
+
+- `tests/browser-typography.cjs`: cỡ chữ hero 72px ở viewport 1440px, 35.2px ở viewport 390px; nội dung 16px như bản trước. Animation theo từng từ giữ nguyên nội dung và xuống dòng; reduced motion có thể bật/tắt trực tiếp.
+- Năm liên kết ảnh Unsplash được thêm vào. Môi trường trả HTTP 403 nên chưa xác nhận việc tải ảnh thật. Đã kiểm tra hình dự phòng khi ảnh lỗi và cách hiện ảnh khi tải thành công bằng ảnh mock cục bộ. Nguồn và giới hạn ghi trong `docs/IMAGE-SOURCES.md`.
+- Build, 62 kiểm tra HTTP và kiểm tra animation/menu/theme vẫn đạt.

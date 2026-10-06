@@ -136,3 +136,54 @@ if (window.gsap) {
     notes.forEach((note, index) => gsap.to(note, { y: index % 2 ? 7 : -7, duration: 2.8 + index * .6, repeat: -1, yoyo: true, ease: 'sine.inOut' }));
   });
 }
+
+// Keep conceptual visuals visible until an editorial photograph successfully loads.
+document.querySelectorAll('[data-editorial-photo]').forEach(image => {
+  const revealPhoto = () => { if (image.naturalWidth > 0) image.parentElement.classList.add('photo-loaded'); };
+  image.addEventListener('load', revealPhoto);
+  if (image.complete) revealPhoto();
+});
+
+// Animate words without replacing line breaks, links or accented characters.
+if (window.gsap && 'IntersectionObserver' in window) {
+  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+    const headings = [...document.querySelectorAll('.hero-copy h1, main .section-title')];
+    const originals = new Map();
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const heading = entry.target;
+        heading.classList.add('is-revealing');
+        gsap.fromTo(heading.querySelectorAll('.text-word'),
+          { opacity: 0, y: 24, rotateX: -15 },
+          { opacity: 1, y: 0, rotateX: 0, duration: .75, stagger: .08, ease: 'power3.out', clearProps: 'all', onComplete: () => heading.classList.remove('is-revealing') });
+        observer.unobserve(heading);
+      });
+    }, { threshold: .15 });
+    headings.forEach(heading => {
+      originals.set(heading, heading.innerHTML);
+      const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+      const nodes = [];
+      while (walker.nextNode()) nodes.push(walker.currentNode);
+      nodes.forEach(node => {
+        if (!node.textContent.trim()) return;
+        const fragment = document.createDocumentFragment();
+        node.textContent.split(/(\s+)/).forEach(word => {
+          if (/^\s+$/.test(word)) fragment.append(document.createTextNode(word));
+          else { const span = document.createElement('span'); span.className = 'text-word'; span.textContent = word; fragment.append(span); }
+        });
+        node.replaceWith(fragment);
+      });
+      heading.classList.add('text-reveal');
+      observer.observe(heading);
+    });
+    return () => {
+      observer.disconnect();
+      headings.forEach(heading => {
+        gsap.killTweensOf(heading.querySelectorAll('.text-word'));
+        heading.innerHTML = originals.get(heading);
+        heading.classList.remove('text-reveal', 'is-revealing');
+      });
+    };
+  });
+}
