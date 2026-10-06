@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>@ViewData["Title"] - BrandName</title>
+<title>@ViewData["Title"] - Duy Tú</title>
+<script>
+(() => {
+    let theme;
+    try { theme = localStorage.getItem('portfolio-theme'); } catch {}
+    document.documentElement.dataset.theme = theme === 'dark' || theme === 'light'
+        ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+})();
+</script>
 <link rel="icon" href="~/img/favicon.png" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/lib/aos/aos.css" asp-append-version="true" />
