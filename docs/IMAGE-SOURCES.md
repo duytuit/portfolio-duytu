@@ -1,13 +1,12 @@
-# Editorial imagery
+# Local photographic illustrations
 
-These stock images illustrate the topic, not the user's actual projects or workplace. Images are served directly from Unsplash and require browser Internet access; conceptual/local fallback visuals remain visible if an image fails. The cloud environment returned HTTP 403 for these downloads, so actual image delivery has not been verified here.
+All visible editorial images are now served from this repository, not external image URLs. These are illustrative stock photographs, not screenshots of the user's actual products, staff or workplace. The personal hero portrait stays unchanged.
 
-| Topic | Source |
-| --- | --- |
-| Logistics / warehouse | https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d |
-| Manufacturing | https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7 |
-| Collaboration | https://images.unsplash.com/photo-1522071820081-009f0129c71c |
-| Analytics | https://images.unsplash.com/photo-1551288049-bebda4e38f71 |
-| Developer workspace | https://images.unsplash.com/photo-1498050108023-c5249f4df085 |
+| Local file | Subject | Download source |
+| --- | --- | --- |
+| `wwwroot/img/editorial/code.jpg` | HTML code on a screen | https://raw.githubusercontent.com/StartBootstrap/startbootstrap-landing-page/master/dist/assets/img/bg-showcase-2.jpg |
+| `wwwroot/img/editorial/collaboration.jpg` | Hands using a laptop at a desk | https://raw.githubusercontent.com/StartBootstrap/startbootstrap-landing-page/master/dist/assets/img/bg-showcase-3.jpg |
+| `wwwroot/img/editorial/laptop.jpg` | Laptop photographed in dark studio lighting | https://raw.githubusercontent.com/StartBootstrap/startbootstrap-agency/master/dist/assets/img/portfolio/5.jpg |
+| `wwwroot/img/services.jpg` | People working in an office | Retained from the user's original uploaded React archive |
 
-Unsplash license: https://unsplash.com/license. No specific photographer attribution is claimed without verified metadata. Photos do not replace the user's personal hero portrait.
+New photographs were downloaded successfully through public GitHub sources and visually inspected. The source repositories' MIT license notices are retained under `docs/image-licenses/`. No images were taken from the unrelated template collections inspected during research. Unsplash links that previously failed with HTTP 403 have been removed from the page.

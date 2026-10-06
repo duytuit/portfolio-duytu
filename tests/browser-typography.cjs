@@ -1,6 +1,4 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
 const { chromium } = require('playwright');
 const base = process.env.BASE_URL || 'http://127.0.0.1:5000';
 (async () => {
@@ -8,7 +6,7 @@ const base = process.env.BASE_URL || 'http://127.0.0.1:5000';
  try {
   const page = await browser.newPage({viewport:{width:1440,height:1000},reducedMotion:'no-preference'});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.route('https://images.unsplash.com/**', route=>route.abort());
+
   await page.goto(base,{waitUntil:'load'});
   assert.equal(await page.locator('.hero-copy h1').evaluate(e=>getComputedStyle(e).fontSize),'72px');
   assert.equal(await page.locator('.hero-description').first().evaluate(e=>getComputedStyle(e).fontSize),'16px');
@@ -19,8 +17,9 @@ const base = process.env.BASE_URL || 'http://127.0.0.1:5000';
   const breaks=await page.locator('.hero-copy h1 br').count();
   assert(await page.locator('.hero-copy h1 > .text-word').first().evaluate(e=>getComputedStyle(e).color!=='rgb(234, 88, 12)'));
   await page.locator('#portfolio').evaluate(e=>e.scrollIntoView({behavior:'instant'}));
-  assert(await page.locator('.visual-fallback').first().evaluate(e=>getComputedStyle(e).visibility==='visible'));
-  assert.equal(await page.locator('.project-visual.photo-loaded').count(),0);
+  await page.waitForFunction(()=>[...document.querySelectorAll('.project-photo')].every(e=>e.complete && e.naturalWidth>0));
+  assert.equal(await page.locator('.project-visual.photo-loaded').count(),4);
+  assert(await page.locator('[data-editorial-photo]').evaluateAll(images=>images.every(e=>new URL(e.src).origin===location.origin)));
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.waitForFunction(()=>document.querySelectorAll('.text-word').length===0);
   assert.equal(await page.locator('.hero-copy h1').textContent(),text);
@@ -33,14 +32,6 @@ const base = process.env.BASE_URL || 'http://127.0.0.1:5000';
   assert.equal(await page.locator('.hero-copy h1').evaluate(e=>getComputedStyle(e).fontSize),'35.2px');
   assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   assert.deepEqual(errors,[]);
-  console.log('PASS original desktop/mobile typography; word animation preserves text and line breaks; live reduced motion; failed-photo fallback; no browser errors');
-  const success=await browser.newPage();
-  await success.route('https://images.unsplash.com/**', route=>route.fulfill({status:200,contentType:'image/jpeg',body:fs.readFileSync(path.join(__dirname,'../wwwroot/img/services.jpg'))}));
-  await success.goto(base,{waitUntil:'load'});
-  await success.locator('#portfolio').evaluate(e=>e.scrollIntoView({behavior:'instant'}));
-  await success.waitForFunction(()=>document.querySelector('.project-visual').classList.contains('photo-loaded'));
-  assert(await success.locator('.project-photo').first().evaluate(e=>e.naturalWidth>0));
-  assert(await success.locator('.visual-fallback').first().evaluate(e=>getComputedStyle(e).visibility==='hidden'));
-  console.log('PASS successful-photo presentation (mock image); live Unsplash delivery remains unverified');
+  console.log('PASS original desktop/mobile typography; word animation preserves text and line breaks; live reduced motion; local photographs; no browser errors');
  } finally { await browser.close(); }
 })().catch(e=>{console.error(e);process.exit(1)});

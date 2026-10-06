@@ -1,15 +1,18 @@
-# Kiểm tra thiết kế portfolio
+# Portfolio validation
 
-- Build project `net6.0` bằng SDK 6.0.428: 0 lỗi, 0 cảnh báo. Lệnh chạy từ `/tmp` để không thay đổi `global.json` do người dùng cập nhật; SDK 10.0.203 đang được ghim trong file đó chưa có trong môi trường kiểm tra.
-- `python3 tests/smoke.py http://127.0.0.1:5001`: 62 kiểm tra đạt, gồm các trang, tài nguyên, lưu form, validation, chống CSRF và 404.
-- `tests/browser-animations.cjs`: AOS khi cuộn, GSAP trên thẻ hero, thanh tiến trình, navigation theo section, dark mode, menu mobile, không tràn ngang, không có lỗi JavaScript.
-- Reduced motion hoạt động khi khởi động và khi thay đổi; nội dung vẫn hiển thị khi thư viện bị chặn hoặc tắt JavaScript.
-- Ảnh chụp trình duyệt tại viewport 1440×1000 và 390×844 đã được kiểm tra trực quan.
+- `net6.0` build with SDK 6.0.428: 0 errors, 0 warnings. Build invoked from `/tmp` with the project path and `-p:UseAppHost=false`, preserving the user's `global.json` pin to SDK 10.0.203, which is not installed in this validation machine.
+- `python3 tests/smoke.py http://127.0.0.1:5004`: 66 checks passed, including pages, local image assets, validation, CSRF, persistence and 404s.
+- `tests/browser-animations.cjs`: AOS, GSAP, navigation, progress bar, mobile menu, theme, reduced motion and JavaScript-disabled behavior passed.
+- `tests/browser-typography.cjs`: original heading/body font sizes, text preservation during animation and all five locally served editorial images passed.
+- `tests/browser-layout.cjs`: no horizontal overflow at 390, 768, 1024 and 1440px; all editorial images loaded with real image responses, not mocked assets.
 
-Hình trên các thẻ dự án là minh họa giao diện bằng HTML/CSS, có nhãn concept/interface study; không phải ảnh chụp sản phẩm thật. Không thay đổi số năm kinh nghiệm hoặc thông tin cá nhân của bản code người dùng cập nhật.
+## Compact-layout measurements
 
-## Ảnh minh họa và hiệu ứng chữ
+| Viewport | Previous page height | Current page height | Previous portrait width | Current portrait width |
+| --- | --- | --- | --- | --- |
+| 1440px | 13365px | 7505px | 572.8px | 725.3px |
+| 390px | 16640px | 12185px | 318px | 342px |
 
-- `tests/browser-typography.cjs`: cỡ chữ hero 72px ở viewport 1440px, 35.2px ở viewport 390px; nội dung 16px như bản trước. Animation theo từng từ giữ nguyên nội dung và xuống dòng; reduced motion có thể bật/tắt trực tiếp.
-- Năm liên kết ảnh Unsplash được thêm vào. Môi trường trả HTTP 403 nên chưa xác nhận việc tải ảnh thật. Đã kiểm tra hình dự phòng khi ảnh lỗi và cách hiện ảnh khi tải thành công bằng ảnh mock cục bộ. Nguồn và giới hạn ghi trong `docs/IMAGE-SOURCES.md`.
-- Build, 62 kiểm tra HTTP và kiểm tra animation/menu/theme vẫn đạt.
+Measurements used Chromium at 900px viewport height with reduced motion enabled and all images loaded. Actual font rendering may differ across devices. Content was retained while grouping related sections into columns and removing forced heading line breaks.
+
+The stock photographs illustrate software work, devices and office operations; they are not photos of the user's actual projects. Sources and retained license notices are documented in `docs/IMAGE-SOURCES.md`. All previously failing external Unsplash image URLs have been replaced with local assets.

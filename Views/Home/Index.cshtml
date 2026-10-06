@@ -1,14 +1,11 @@
 @{ ViewData["Title"] = "Software Engineer & Full-stack Developer"; }
 <section id="home" class="hero-section"><partial name="_Hero" /></section>
-<section id="intro" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Intro" /></div></section>
+<section id="intro" class="portfolio-section section-soft"><div class="section-inner intro-layout"><partial name="_Intro" /></div></section>
 <section id="portfolio" class="portfolio-section"><div class="section-inner"><partial name="_Portfolio" /></div></section>
 <section id="services" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Services" /></div></section>
 <section id="marquee" class="marquee-section"><div class="section-inner"><partial name="_Marquee" /></div></section>
 <section id="technology" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Technology" /></div></section>
-<section id="about" class="portfolio-section"><div class="section-inner"><partial name="_About" /></div></section>
-<section id="journey" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Journey" /></div></section>
-<section id="approach" class="portfolio-section"><div class="section-inner"><partial name="_Approach" /></div></section>
-<section id="philosophy" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Philosophy" /></div></section>
-<section id="beyond" class="portfolio-section"><div class="section-inner"><partial name="_Beyond" /></div></section>
+<section id="about" class="portfolio-section"><div class="section-inner profile-grid"><div><partial name="_About" /></div><div id="journey"><partial name="_Journey" /></div></div></section>
+<section id="approach" class="portfolio-section section-soft"><div class="section-inner approach-grid"><div><partial name="_Approach" /></div><div id="philosophy"><partial name="_Philosophy" /></div><div id="beyond"><partial name="_Beyond" /></div></div></section>
 <section id="contact" class="portfolio-section section-soft"><div class="section-inner"><partial name="_Contact" /></div></section>
 <footer class="portfolio-section section-soft"><div class="section-inner"><partial name="_Footer" /></div></footer>
