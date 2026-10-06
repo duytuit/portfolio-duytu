@@ -1,12 +1,12 @@
 <div class="text-[#7A6960]">
-<h1 class="text-3xl font-semibold text-center">Contact</h1>
+<h1 data-aos="fade-right" class="text-3xl font-semibold text-center">Contact</h1>
 <div class="flex justify-center items-center mt-2">
 <div class="bg-orange-600 h-1 w-16 rounded">
 </div>
 </div>
 <p class="text-gray-700 text-center mt-7 mb-10 text-lg">Reach out for a new project or just say hello</p>
 <div class="lg:flex gap-6">
-<div class="lg:w-[40%] px-10 py-5 shadow-xl border-t-[3px] border-b-[3px] border-orange-600 mb-7 lg:mb-0">
+<div data-aos="fade-up" class="lg:w-[40%] px-10 py-5 shadow-xl border-t-[3px] border-b-[3px] border-orange-600 mb-7 lg:mb-0">
 <div class="flex gap-3 mt-3 mb-12">
 <div class="rounded-full h-fit bg-orange-100 p-2" style="color:#EA580C;font-size:28px">
 <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +52,7 @@
 </iframe>
 </div>
 </div>
-<div class="lg:w-[60%] px-10 py-5 shadow-xl border-t-[3px] border-b-[3px] border-orange-600">
+<div data-aos="fade-up" data-aos-duration="1600" class="lg:w-[60%] px-10 py-5 shadow-xl border-t-[3px] border-b-[3px] border-orange-600">
 <form method="post" action="/contact">
 @Html.AntiForgeryToken()
 <input type="hidden" name="ReturnPath" value="@(Context.Request.Path)" />

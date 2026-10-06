@@ -6,6 +6,7 @@
 <title>@ViewData["Title"] - BrandName</title>
 <link rel="icon" href="~/img/favicon.png" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/aos/aos.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/interactions.css" asp-append-version="true" />
 </head>
 <body class="secondary-font">
@@ -13,6 +14,8 @@
 @if (TempData["Notice"] is string notice) { <div role="status" class="notice">@notice</div> }
 @if (TempData["Error"] is string error) { <div role="alert" class="notice error">@error</div> }
 <main>@RenderBody()</main>
+<script src="~/lib/aos/aos.js" asp-append-version="true" defer></script>
+<script src="~/lib/gsap/gsap.min.js" asp-append-version="true" defer></script>
 <script src="~/js/site.js" asp-append-version="true" defer>
 </script>
 </body>
