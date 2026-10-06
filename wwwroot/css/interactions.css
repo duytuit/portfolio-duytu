@@ -88,7 +88,7 @@ html[data-theme="dark"] .shadow-zinc-300{--tw-shadow-color:#0006}
 .text-action{color:var(--text);font-size:.8rem;letter-spacing:.06em;text-decoration:underline;text-underline-offset:6px;display:inline-block}
 .text-action:hover{color:#ea580c}
 #about .content-block,#intro .content-block,#beyond .content-block{max-width:900px}
-#about .section-copy:last-child{display:flex;gap:16px;flex-wrap:wrap;margin-top:32px}
+#about .section-copy:last-child{display:flex;gap:16px;flex-wrap:wrap}
 #journey .content-block,#approach .content-block{max-width:850px}
 #journey .item-title,#approach .item-title{border-top:1px solid var(--line);padding-top:24px;margin-top:32px}
 #journey .section-copy strong{color:var(--text);font-size:.875rem;letter-spacing:.08em}
@@ -173,3 +173,122 @@ html[data-theme="dark"]{--accent:#ff936c;--accent-soft:#2e2526;--hero-glow:#7737
 @media(min-width:768px){.portfolio-section{padding:52px 32px}.hero-section{padding-inline:32px}.intro-layout,.profile-grid{grid-template-columns:1fr 1fr;align-items:start}.intro-layout .editorial-feature{height:100%}.approach-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.approach-grid .section-title{font-size:clamp(1.6rem,2.6vw,2.4rem)}.approach-grid .section-copy{font-size:.95rem}.hero-portrait img{aspect-ratio:3/2}#technology .content-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(min-width:1024px){.hero-section{padding:36px clamp(32px,4vw,64px) 24px}.portfolio-hero{grid-template-columns:minmax(0,.9fr) minmax(0,1.15fr);gap:32px;align-items:center}.hero-portrait img{aspect-ratio:4/3}.portfolio-section{padding:52px clamp(32px,4vw,64px)}.section-inner{max-width:1320px}}
 @media(max-width:767px){.hero-portrait{margin:8px 0 16px}.hero-code-note{font-size:9px;bottom:64px;padding:10px 12px}.hero-portrait figcaption{font-size:.5rem;padding:10px;left:10px;right:10px;bottom:10px}.hero-experience{padding:10px;right:10px;top:12px}.hero-experience strong{font-size:1.5rem}.hero-experience span{font-size:.45rem}.hero-role{font-size:.65rem}.hero-portrait img{aspect-ratio:4/3}.editorial-feature{margin-top:24px}.content-card{padding:18px}.section-title{font-size:2rem}.project-visual{height:180px}}
+
+/* Compact technology overview. */
+#technology .technology-title{font-size:clamp(1.65rem,3vw,2.5rem);line-height:1.2;margin-bottom:20px}
+#technology .technology-title span{font-size:.65em;letter-spacing:-.02em;color:var(--muted)}
+#technology .content-grid{gap:12px;margin-top:20px}
+#technology .content-card{padding:18px;border-radius:14px;min-height:0}
+#technology .item-title{font-size:.75rem;margin:0 0 14px;letter-spacing:.08em}
+.technology-tags{display:flex;flex-wrap:wrap;align-content:flex-start;gap:7px;list-style:none;margin:0;padding:0}
+.technology-tags li{max-width:100%;padding:5px 9px;border:1px solid var(--line);border-radius:6px;background:var(--soft-surface);color:var(--muted);font-family:ui-monospace,monospace;font-size:.7rem;line-height:1.45;overflow-wrap:anywhere}
+@media(min-width:1280px){#technology .content-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+/* Shared compact sizing, with columns sized for readable content. */
+:root{--section-space:clamp(32px,4vw,48px);--content-gap:clamp(16px,2vw,24px);--card-space:clamp(16px,1.6vw,20px)}
+.portfolio-section{padding-block:var(--section-space)}
+.section-inner,.content-block,.hero-copy,.intro-layout>*,.profile-grid>*,.approach-grid>*,.contact-layout>*{min-width:0}
+.section-title{font-size:clamp(1.65rem,3vw,2.5rem);line-height:1.2;margin-bottom:14px;overflow-wrap:normal;word-break:normal}
+.section-kicker{font-size:.7rem;margin-bottom:10px;gap:8px;line-height:1.5}
+.section-kicker::before{width:20px;flex-shrink:0}
+.section-copy{font-size:.95rem;line-height:1.65;margin:8px 0}
+.item-title{font-size:clamp(1.05rem,1.8vw,1.4rem);margin:14px 0 8px}
+.content-grid{gap:14px;margin-top:20px}
+.content-card{padding:var(--card-space);border-radius:14px}
+.content-card .section-title,.project-card .section-title{font-size:clamp(1.15rem,1.7vw,1.5rem);line-height:1.3;margin:8px 0 10px;overflow-wrap:anywhere}
+.content-card .section-copy{font-size:.9rem;line-height:1.6}
+.content-card .item-title:first-child,.project-card .item-title{font-size:.7rem;letter-spacing:.06em;margin:0 0 10px;color:var(--accent)}
+.stack-label{font-size:.65rem;line-height:1.65;margin:10px 0;overflow-wrap:anywhere}
+.content-card>.stack-label:last-child{margin-top:auto;padding-top:10px;margin-bottom:0}
+.content-card .text-action{font-size:.7rem;padding-top:10px;line-height:1.6}
+.project-visual{height:auto;aspect-ratio:16/9;margin-bottom:14px;border-radius:10px}
+.intro-layout,.profile-grid,.approach-grid,.contact-layout{gap:var(--content-gap)}
+.intro-layout .editorial-feature{height:auto;min-height:0;align-self:start;border-radius:16px}
+.intro-layout .editorial-feature>img{height:auto;min-height:0;aspect-ratio:4/3}
+.editorial-feature figcaption{padding:16px;font-size:.65rem}
+.approach-grid .section-title{font-size:clamp(1.4rem,2.2vw,2rem)}
+#journey .item-title,#approach .item-title{padding-top:12px;margin-top:14px;font-size:.95rem}
+.journey-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px;align-items:start}
+#journey .content-block{container-type:inline-size}
+#journey .journey-title{font-size:clamp(1rem,2vw,1.25rem);font-size:clamp(1rem,3.2cqi,1.25rem);line-height:1.3;letter-spacing:-.025em;margin-bottom:10px;display:flex;flex-wrap:wrap;column-gap:.3em}
+.journey-title>span{white-space:nowrap}
+.journey-step{border:1px solid var(--line);border-radius:10px;background:var(--surface);min-width:0;overflow:hidden}
+.journey-step summary{position:relative;display:flex;align-items:center;gap:10px;min-height:60px;padding:10px 24px 10px 12px;cursor:pointer;list-style:none}
+.journey-step summary::-webkit-details-marker{display:none}
+.journey-step summary::after{content:"+";position:absolute;right:10px;color:var(--accent);font-size:1rem}
+.journey-step[open] summary::after{content:"−"}
+#journey .journey-step .item-title{border:0;margin:0;padding:0;color:var(--accent);font-size:.85rem;flex-shrink:0}
+.journey-step .section-kicker{font-size:.65rem;letter-spacing:0;margin:0;line-height:1.45}
+.journey-step .section-kicker::before{display:none}
+.journey-step .section-copy{font-size:.85rem;margin:0;padding:0 12px 12px;line-height:1.6}
+@media(min-width:1024px){.journey-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.journey-step summary{display:block;min-height:78px}#journey .journey-step .item-title{display:block;margin-bottom:4px}}
+#philosophy .item-title{font-size:clamp(1.2rem,2vw,1.6rem);margin-top:16px}
+.about-stats{margin-top:18px;padding-top:16px}
+.about-stats dd{font-size:.6rem}
+.portfolio-marquee{padding:14px 0}
+.portfolio-marquee span{font-size:clamp(1rem,2.2vw,1.6rem)}
+.contact-panel{padding:var(--card-space);border-radius:14px}
+.contact-panel input,.contact-panel textarea{margin-block:6px 12px;font-size:.9rem}
+.contact-panel textarea{height:120px;min-height:100px;resize:vertical}
+.contact-panel form>.flex{margin:0;justify-content:flex-start}
+.contact-panel button{font-size:.9rem;min-height:44px;padding-inline:18px}
+.personal-footer{gap:20px}
+.personal-footer p,.personal-footer a:not(.site-brand){margin-top:8px;line-height:1.65;font-size:.8rem}
+footer.portfolio-section{padding-block:28px}
+.footer-bottom{margin-top:20px;padding-top:14px}
+.hero-section{padding-block:28px 20px}
+.portfolio-hero{padding-bottom:16px;gap:var(--content-gap)}
+.hero-copy h1{font-size:clamp(2.2rem,4.5vw,4rem);margin-block:14px}
+.hero-description{font-size:.95rem;line-height:1.65}
+.hero-role{margin-top:12px}
+.hero-links{gap:16px;margin-top:16px}
+.hero-stack{margin-top:16px;padding-top:12px}
+@media(min-width:768px) and (max-width:1023px){.approach-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#beyond{grid-column:1/-1}}
+@media(min-width:1280px){#portfolio .content-grid,#services .content-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:479px){.portfolio-section,.hero-section{padding-inline:20px}.journey-grid{grid-template-columns:1fr}.personal-footer{column-gap:16px}.hero-code-note{left:0;font-size:8px}.about-stats{gap:8px}}
+
+/* Small information panels instead of oversized editorial headings. */
+.compact-panel{padding:16px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.compact-panel .section-kicker{font-size:.6rem;margin-bottom:6px;letter-spacing:.04em}
+#journey .journey-title,#approach .compact-panel .section-title,#beyond .compact-panel .section-title{font-size:1.05rem;line-height:1.4;letter-spacing:-.02em;margin:0 0 12px;text-wrap:balance}
+.compact-panel .section-copy{font-size:.875rem;line-height:1.6;margin:0}
+.journey-panel .journey-grid{grid-template-columns:1fr;gap:0;margin-top:0}
+.journey-panel .journey-step{border:0;border-top:1px solid var(--line);border-radius:0;background:transparent}
+.journey-panel .journey-heading{display:flex;align-items:baseline;padding:10px 0 5px;gap:12px}
+#journey .journey-panel .journey-step .item-title{display:inline-block;min-width:38px;margin:0;font-size:.8rem}
+.journey-panel .journey-step .section-kicker{font-size:.7rem;margin:0}
+.journey-panel .journey-step .section-copy{padding:0 0 10px 50px;font-size:.8rem}
+.process-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 16px;list-style:none;margin:0;padding:0}
+.process-grid li{border-top:1px solid var(--line);padding-top:10px;min-width:0}
+#approach .process-grid .item-title{border:0;margin:0 0 5px;padding:0;font-size:.7rem;line-height:1.5;color:var(--accent)}
+.process-grid .section-copy{font-size:.8rem;line-height:1.55}
+.interest-tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 0;padding:0;list-style:none}
+.interest-tags li{padding:5px 8px;border-radius:6px;background:var(--accent-soft);color:var(--text);font-size:.65rem;line-height:1.5;letter-spacing:.015em;max-width:100%;overflow-wrap:anywhere}
+@media(min-width:768px) and (max-width:1023px){.approach-grid>div:first-child{grid-column:1/-1}#beyond{grid-column:auto}.process-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(min-width:1024px){.approach-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1.1fr);gap:20px}}
+@media(max-width:359px){.process-grid{grid-template-columns:1fr}}
+
+/* Let the hero background continue behind the navigation. */
+body.hero-navigation{padding-top:0}
+.hero-navigation .hero-section{padding-top:calc(var(--nav-height) + 12px)}
+.hero-navigation .site-header{padding-inline:24px;transition:transform .25s ease,background-color .2s ease,box-shadow .2s ease}
+.hero-navigation .site-header:not(.nav-scrolled){background:transparent;backdrop-filter:none;box-shadow:none}
+.hero-navigation .site-header:not(.nav-scrolled) :is(.theme-toggle,.menu-toggle){background:transparent}
+@media(min-width:768px){.hero-navigation .site-header{padding-inline:32px}}
+@media(min-width:1024px){.hero-navigation .site-header{padding-inline:clamp(32px,4vw,64px)}}
+@media(max-width:479px){.hero-navigation .site-header{padding-inline:20px}}
+@media(prefers-reduced-motion:reduce){.hero-navigation .site-header{transition:none}}
+
+.philosophy-panel{background:linear-gradient(135deg,var(--surface),var(--accent-soft));border-top:2px solid var(--accent)}
+.philosophy-principle{display:flex;align-items:flex-start;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.principle-mark{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:9px;background:var(--accent-soft);color:var(--accent);font:600 .9rem ui-monospace,monospace}
+#philosophy .philosophy-principle .item-title{font-size:.85rem;line-height:1.5;color:var(--text);margin:0 0 6px}
+.philosophy-principle .section-copy{font-size:.8rem}
+@media(max-width:767px){
+  .hero-portrait{display:flex;flex-direction:column;gap:10px;margin-bottom:0}
+  .hero-portrait::before{display:none}
+  .hero-portrait figcaption{position:static;font-size:.6rem;padding:12px;line-height:1.5}
+  .hero-portrait .hero-code-note{position:static;inset:auto;max-width:100%;width:100%;padding:14px 16px;font-size:11px;line-height:1.8;transform:none;box-shadow:none;border-radius:12px;overflow-wrap:anywhere}
+  .hero-code-note code{white-space:normal}
+  .hero-code-note .code-dots{margin-bottom:6px}
+}

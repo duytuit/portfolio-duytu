@@ -22,6 +22,11 @@ systemTheme.addEventListener('change', event => {
 });
 
 const header = document.querySelector('[data-site-header]');
+function updateHeaderSurface() {
+  header?.classList.toggle('nav-scrolled', window.scrollY > 8);
+}
+updateHeaderSurface();
+window.addEventListener('pageshow', updateHeaderSurface);
 const menu = document.getElementById('mobile-menu');
 const menuButton = document.querySelector('[data-menu-open]');
 if (menu && menuButton) {
@@ -54,6 +59,7 @@ window.addEventListener('scroll', () => {
   scrollScheduled = true;
   window.requestAnimationFrame(() => {
     const currentY = Math.max(0, window.scrollY);
+    updateHeaderSurface();
     const delta = currentY - lastScrollY;
     if (header) {
       if (currentY <= header.offsetHeight || menu?.open || header.contains(document.activeElement)) {
@@ -131,7 +137,7 @@ if ('IntersectionObserver' in window) {
 }
 
 if (window.gsap) {
-  gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+  gsap.matchMedia().add('(prefers-reduced-motion: no-preference) and (min-width: 768px)', () => {
     const notes = gsap.utils.toArray('[data-floating-note]');
     notes.forEach((note, index) => gsap.to(note, { y: index % 2 ? 7 : -7, duration: 2.8 + index * .6, repeat: -1, yoyo: true, ease: 'sine.inOut' }));
   });
