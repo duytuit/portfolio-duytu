@@ -1,3 +1,8 @@
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var zaloChatUrl = Configuration["Contact:ZaloUrl"];
+    var messengerChatUrl = Configuration["Contact:MessengerUrl"];
+}
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -12,7 +17,7 @@
         ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 })();
 </script>
-<link rel="icon" href="~/img/favicon.png" />
+<link rel="icon" href="~/img/favicon.ico" sizes="32x32" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/lib/aos/aos.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/interactions.css" asp-append-version="true" />
@@ -20,9 +25,53 @@
 <body class="secondary-font @(ViewData["HeroNavigation"] is true ? "hero-navigation" : "")">
 <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
 <partial name="_NavBar" />
-@if (TempData["Notice"] is string notice) { <div role="status" class="notice">@notice</div> }
-@if (TempData["Error"] is string error) { <div role="alert" class="notice error">@error</div> }
+<div class="toast-container">
+@if (TempData["Notice"] is string notice)
+{
+    <div role="status" class="feedback-toast" data-toast>
+        <span class="toast-icon" aria-hidden="true">✓</span>
+        <span class="toast-message">@notice</span>
+        <button type="button" class="toast-close" data-toast-close aria-label="Đóng thông báo">×</button>
+    </div>
+}
+@if (TempData["Error"] is string error)
+{
+    <div role="alert" class="feedback-toast toast-error" data-toast>
+        <span class="toast-icon" aria-hidden="true">!</span>
+        <span class="toast-message">@error</span>
+        <button type="button" class="toast-close" data-toast-close aria-label="Đóng thông báo">×</button>
+    </div>
+}
+</div>
 <main>@RenderBody()</main>
+@if (!string.IsNullOrWhiteSpace(messengerChatUrl))
+{
+    <a class="zalo-chat messenger-chat" href="@messengerChatUrl" target="_blank" rel="noopener noreferrer"
+       aria-label="Chat qua Messenger (mở tab mới)" title="Chat qua Messenger">
+        <img src="~/img/icon-messenger.svg" asp-append-version="true" width="60" height="60" alt="" />
+    </a>
+}
+else
+{
+    <button class="zalo-chat messenger-chat" type="button" disabled aria-label="Chat qua Messenger chưa được cấu hình"
+            title="Chưa cấu hình đường dẫn Messenger">
+        <img src="~/img/icon-messenger.svg" asp-append-version="true" width="60" height="60" alt="" />
+    </button>
+}
+@if (!string.IsNullOrWhiteSpace(zaloChatUrl))
+{
+    <a class="zalo-chat" href="@zaloChatUrl" target="_blank" rel="noopener noreferrer"
+       aria-label="Chat qua Zalo (mở tab mới)" title="Chat qua Zalo">
+        <img src="~/img/icon-zalo.svg" asp-append-version="true" width="50" height="50" alt="" />
+    </a>
+}
+else
+{
+    <button class="zalo-chat" type="button" disabled aria-label="Chat qua Zalo chưa được cấu hình"
+            title="Chưa cấu hình đường dẫn Zalo">
+        <img src="~/img/icon-zalo.svg" asp-append-version="true" width="50" height="50" alt="" />
+    </button>
+}
 <script src="~/lib/aos/aos.js" asp-append-version="true" defer></script>
 <script src="~/lib/gsap/gsap.min.js" asp-append-version="true" defer></script>
 <script src="~/js/site.js" asp-append-version="true" defer>

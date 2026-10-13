@@ -1,3 +1,28 @@
+document.querySelectorAll('[data-toast]').forEach(toast => {
+  let timer;
+  let closing = false;
+  const close = () => {
+    if (closing) return;
+    closing = true;
+    clearTimeout(timer);
+    toast.classList.add('is-closing');
+    setTimeout(() => toast.remove(), 200);
+  };
+  const pause = () => clearTimeout(timer);
+  const resume = () => {
+    pause();
+    // Keep errors visible until dismissed so visitors can read recovery instructions.
+    if (!toast.classList.contains('toast-error') && !toast.matches(':hover, :focus-within'))
+      timer = setTimeout(close, 6000);
+  };
+  toast.querySelector('[data-toast-close]')?.addEventListener('click', close);
+  toast.addEventListener('mouseenter', pause);
+  toast.addEventListener('mouseleave', resume);
+  toast.addEventListener('focusin', pause);
+  toast.addEventListener('focusout', () => setTimeout(resume, 0));
+  resume();
+});
+
 const themeButton = document.querySelector('[data-theme-toggle]');
 const systemTheme = window.matchMedia('(prefers-color-scheme: dark)');
 let savedTheme;

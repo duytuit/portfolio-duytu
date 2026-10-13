@@ -1,3 +1,14 @@
+.toast-container{position:fixed;top:calc(var(--nav-height,72px) + 16px);right:calc(24px + env(safe-area-inset-right,0px));z-index:200;display:grid;gap:12px;width:min(400px,calc(100% - 32px));pointer-events:none}
+.feedback-toast{display:flex;align-items:flex-start;gap:12px;padding:16px;border:1px solid #bbf7d0;border-left:4px solid #22c55e;border-radius:12px;background:#f0fdf4;color:#166534;box-shadow:0 8px 30px rgba(0,0,0,.15);pointer-events:auto;animation:toast-enter .25s ease-out;transition:opacity .2s ease,transform .2s ease}
+.toast-icon{display:grid;place-items:center;flex-shrink:0;width:24px;height:24px;border-radius:50%;background:#dcfce7;font-weight:700}
+.toast-message{flex:1;min-width:0;font-size:.875rem;line-height:1.6;overflow-wrap:anywhere}
+.toast-close{display:grid;place-items:center;flex-shrink:0;width:28px;height:28px;margin:-2px -4px 0 0;border-radius:6px;font-size:24px;line-height:1;color:inherit;cursor:pointer}
+.toast-close:hover{background:rgba(0,0,0,.06)}
+.toast-error{border-color:#fecaca;border-left-color:#ef4444;background:#fef2f2;color:#991b1b}.toast-error .toast-icon{background:#fee2e2}
+.feedback-toast.is-closing{opacity:0;transform:translateX(20px)}
+@keyframes toast-enter{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:479px){.toast-container{right:16px}}
+@media(prefers-reduced-motion:reduce){.feedback-toast{animation:none;transition:none}.feedback-toast.is-closing{transform:none}}
 .mainDiv:hover > div,.mainDiv:focus-within > div{display:block}
 [hidden]{display:none!important}html{scroll-behavior:smooth}summary{list-style:revert}details[open] summary{color:#ea580c}
 .client-slider{overflow:hidden;padding:1rem 0}.client-track{display:flex;width:max-content;animation:client-scroll 30s linear infinite}.client-group{display:flex;align-items:center;flex-shrink:0}.client-slider img{flex-shrink:0}.client-slider:hover .client-track{animation-play-state:paused}
@@ -278,6 +289,23 @@ body.hero-navigation{padding-top:0}
 @media(min-width:1024px){.hero-navigation .site-header{padding-inline:clamp(32px,4vw,64px)}}
 @media(max-width:479px){.hero-navigation .site-header{padding-inline:20px}}
 @media(prefers-reduced-motion:reduce){.hero-navigation .site-header{transition:none}}
+
+.zalo-chat{position:fixed;right:calc(24px + env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:90;display:grid;place-items:center;width:60px;height:60px;padding:5px;border:0;border-radius:18px;background:#fff;box-shadow:0 4px 20px rgba(0,104,255,.25);transition:transform .2s ease,box-shadow .2s ease}
+.zalo-chat img{width:50px;height:50px}
+.zalo-chat:hover:not(:disabled){transform:translateY(-3px) scale(1.06);box-shadow:0 6px 24px rgba(0,104,255,.35)}
+.zalo-chat:focus-visible{outline:3px solid #0068ff;outline-offset:4px}
+@media(max-width:479px){.zalo-chat{right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px}.zalo-chat img{width:46px;height:46px}}
+.messenger-chat{bottom:calc(96px + env(safe-area-inset-bottom,0px));padding:0;border-radius:50%;background:#0a7cff}
+.messenger-chat img{width:100%;height:100%}
+@media(max-width:479px){.messenger-chat{bottom:calc(84px + env(safe-area-inset-bottom,0px))}.messenger-chat img{width:100%;height:100%}}
+.zalo-chat:not(:disabled)::before{content:"";position:absolute;inset:0;border:2px solid #0a7cff;border-radius:inherit;pointer-events:none;animation:chat-pulse 4s ease-out infinite}
+.zalo-chat:not(:disabled) img{animation:chat-nudge 6s ease-in-out infinite}
+.messenger-chat:not(:disabled)::before{animation-delay:2s}
+.messenger-chat:not(:disabled) img{animation-delay:3s}
+.zalo-chat:is(:hover,:focus-visible)::before,.zalo-chat:is(:hover,:focus-visible) img{animation-play-state:paused}
+@keyframes chat-pulse{0%{transform:scale(1);opacity:0}10%{opacity:.45}45%,100%{transform:scale(1.3);opacity:0}}
+@keyframes chat-nudge{0%,5%,15%,100%{transform:rotate(0)}8%{transform:rotate(-7deg)}12%{transform:rotate(7deg)}}
+@media(prefers-reduced-motion:reduce){.zalo-chat{transition:none}.zalo-chat:not(:disabled)::before,.zalo-chat:not(:disabled) img{animation:none}.zalo-chat:hover:not(:disabled){transform:none}}
 
 .philosophy-panel{background:linear-gradient(135deg,var(--surface),var(--accent-soft));border-top:2px solid var(--accent)}
 .philosophy-principle{display:flex;align-items:flex-start;gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}

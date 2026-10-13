@@ -4,7 +4,8 @@ using PortfolioMvc.Services;
 namespace PortfolioMvc.Controllers;
 public class HomeController : Controller {
     private readonly SubmissionStore store;
-    public HomeController(SubmissionStore store) { this.store = store; }
+    private readonly TelegramNotifier telegram;
+    public HomeController(SubmissionStore store, TelegramNotifier telegram) { this.store = store; this.telegram = telegram; }
     [HttpGet("/")] public IActionResult Index() => View();
     [HttpGet("/hireus")] public IActionResult HireUs() => View();
     [HttpGet("/app-development")] public IActionResult AppDevelopment() => ServicePage("App Development", "app-1.jpg", "Lorem doloribus ex quisquam. Nesciunt laborum laboriosam consequuntur, eum id molestias in, Nesciunt laborum laboriosam consequuntur, eum id molestias in.");
@@ -20,7 +21,10 @@ public class HomeController : Controller {
     public async Task<IActionResult> Contact(ContactForm form) {
         if (!ModelState.IsValid) return BadRequest(ModelState);
         await store.SaveContact(form);
-        TempData["Notice"] = "Your message has been saved. Thank you!";
+        if (await telegram.SendContact(form))
+            TempData["Notice"] = "Đã gửi lời nhắn thành công. Cảm ơn bạn!";
+        else
+            TempData["Error"] = "Lời nhắn đã được lưu, nhưng chưa chuyển được tới Telegram. Vui lòng liên hệ qua Zalo hoặc Messenger nếu cần phản hồi gấp.";
         return LocalRedirect(SafeReturn(form.ReturnPath));
     }
     [HttpPost("/newsletter"), ValidateAntiForgeryToken]
