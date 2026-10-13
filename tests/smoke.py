@@ -54,19 +54,23 @@ check(request('/contact',{'__RequestVerificationToken':token,'Email':'invalid'})
 check(request('/newsletter',{'__RequestVerificationToken':token,'Email':'invalid'})[0]==400,'newsletter validation')
 marker='mvc-smoke-'+uuid.uuid4().hex+'@example.com'
 directory=Path(__file__).resolve().parents[1]/'App_Data'
+contacts_file=directory/'contacts.jsonl'
+contacts_before=contacts_file.read_bytes() if contacts_file.exists() else None
 try:
     code,_,headers=request('/contact',{'__RequestVerificationToken':token,'Name':'Smoke test','Email':marker,'Subject':'Conversion check','Message':'Synthetic test data','ReturnPath':'https://example.com'})
-    check(code==302 and headers['Location']=='/','contact saved; external redirect rejected')
+    check(code==302 and headers['Location']=='/','contact redirect; external redirect rejected')
     code,html,_=request('/')
-    check('Your message has been saved' in html,'contact success notice')
+    check('Đã gửi lời nhắn thành công' in html or 'Không gửi được lời nhắn' in html,'contact result notice')
+    contacts_after=contacts_file.read_bytes() if contacts_file.exists() else None
+    check(contacts_after==contacts_before,'contact was not written to contacts.jsonl')
     token=Page(html).tokens[0]
     code,_,headers=request('/newsletter',{'__RequestVerificationToken':token,'Email':marker,'ReturnPath':'/hireus'})
     check(code==302 and headers['Location']=='/hireus','newsletter redirect')
     check('Your newsletter registration has been saved' in request('/hireus')[1],'newsletter notice')
-    for file in ['contacts.jsonl','subscribers.jsonl']:
+    for file in ['subscribers.jsonl']:
         check(any(json.loads(s).get('Email')==marker for s in (directory/file).read_text().splitlines()),'persisted '+file)
 finally:
-    for file in ['contacts.jsonl','subscribers.jsonl']:
+    for file in ['subscribers.jsonl']:
         p=directory/file
         if p.exists():
             lines=p.read_text().splitlines(keepends=True)

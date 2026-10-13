@@ -20,11 +20,10 @@ public class HomeController : Controller {
     [HttpPost("/contact"), ValidateAntiForgeryToken]
     public async Task<IActionResult> Contact(ContactForm form) {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        await store.SaveContact(form);
         if (await telegram.SendContact(form))
             TempData["Notice"] = "Đã gửi lời nhắn thành công. Cảm ơn bạn!";
         else
-            TempData["Error"] = "Lời nhắn đã được lưu, nhưng chưa chuyển được tới Telegram. Vui lòng liên hệ qua Zalo hoặc Messenger nếu cần phản hồi gấp.";
+            TempData["Error"] = "Không gửi được lời nhắn. Vui lòng thử lại hoặc liên hệ qua Zalo/Messenger.";
         return LocalRedirect(SafeReturn(form.ReturnPath));
     }
     [HttpPost("/newsletter"), ValidateAntiForgeryToken]

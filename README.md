@@ -20,11 +20,11 @@ Mở `http://localhost:5000`. Có thể mở project bằng Visual Studio 2022.
 - `Models/`: dữ liệu trang và validation form.
 - `Views/Home/`: Razor Views; `Views/Shared/`: layout và partial tương ứng component gốc.
 - `wwwroot/`: ảnh gốc, CSS Tailwind đã biên dịch, JavaScript menu mobile.
-- `Services/SubmissionStore.cs`: lưu liên hệ/đăng ký vào `App_Data/*.jsonl` (không công khai qua web).
+- `Services/SubmissionStore.cs`: lưu email đăng ký newsletter vào `App_Data/subscribers.jsonl` (không công khai qua web). Nội dung form liên hệ chỉ được chuyển tới Telegram, không lưu trong file cục bộ.
 
 Giữ các URL gốc, bao gồm `/campagin-creation`; bổ sung `/campaign-creation`. Dự án không hợp lệ trả 404. FAQ dùng HTML details/summary, menu dùng JavaScript thuần, hiệu ứng cuộn dùng AOS 3.0.0-beta.6, ảnh hero dùng GSAP 3.12.5. Hai thư viện được lưu cục bộ trong `wwwroot/lib/`; không cần CDN. Hỗ trợ reduced motion và giữ nội dung hiển thị khi JavaScript không tải.
 
-Các form có kiểm tra dữ liệu phía máy chủ và chống CSRF. Bản React chỉ console.log và thông báo; bản MVC lưu thông tin thật vào file cục bộ, **chưa gửi email hoặc newsletter**. Dữ liệu là thông tin cá nhân: giới hạn quyền thư mục, sao lưu và đặt chính sách lưu trữ phù hợp khi triển khai. Với nhiều máy chủ, thay file cục bộ bằng database/dịch vụ dùng chung.
+Các form có kiểm tra dữ liệu phía máy chủ và chống CSRF. Form liên hệ được chuyển tới Telegram nếu đã cấu hình bot; nội dung không được ghi vào `contacts.jsonl`. Newsletter chỉ lưu email vào file cục bộ, chưa gửi email. Dữ liệu là thông tin cá nhân: giới hạn quyền thư mục, sao lưu và đặt chính sách lưu trữ phù hợp khi triển khai. Với nhiều máy chủ, thay file cục bộ bằng database/dịch vụ dùng chung.
 
 Font Google và iframe Google Maps giữ từ bản gốc, cần Internet; các tài nguyên ứng dụng còn lại được phục vụ cục bộ. .NET 6 đã hết hỗ trợ; phiên bản này theo yêu cầu chuyển đổi, nên nâng cấp lên phiên bản được hỗ trợ trước khi triển khai production.
 

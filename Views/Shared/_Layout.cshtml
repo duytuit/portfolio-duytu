@@ -2,6 +2,11 @@
 @{
     var zaloChatUrl = Configuration["Contact:ZaloUrl"];
     var messengerChatUrl = Configuration["Contact:MessengerUrl"];
+    var socialTitle = $"{ViewData["Title"]} - Duy Tú";
+    var socialDescription = ViewData["Description"] as string
+        ?? "Khám phá portfolio và các dự án của Duy Tú.";
+    var socialImageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Url.Content("~/img/duy-tu-coding-hero.png")}";
+    var socialPageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}{Context.Request.Path}";
 }
 <!DOCTYPE html>
 <html lang="vi">
@@ -9,6 +14,19 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>@ViewData["Title"] - Duy Tú</title>
+<meta name="description" content="@socialDescription" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="@socialTitle" />
+<meta property="og:description" content="@socialDescription" />
+<meta property="og:url" content="@socialPageUrl" />
+<meta property="og:image" content="@socialImageUrl" />
+<meta property="og:image:alt" content="Portfolio của Duy Tú" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="@socialTitle" />
+<meta name="twitter:description" content="@socialDescription" />
+<meta name="twitter:image" content="@socialImageUrl" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <script>
 (() => {
     let theme;
@@ -17,7 +35,7 @@
         ? theme : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 })();
 </script>
-<link rel="icon" href="~/img/favicon.ico" sizes="32x32" />
+<link rel="icon" href="~/img/favicon.ico" sizes="32x32" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/lib/aos/aos.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/interactions.css" asp-append-version="true" />
