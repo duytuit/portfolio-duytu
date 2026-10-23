@@ -1,0 +1,11 @@
+@model BlogPost
+<section class="portfolio-section"><article class="section-inner seo-article">
+<nav aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/blog">Blog</a> / @Model.Title</nav>
+<h1 class="section-title">@Model.Title</h1><p class="section-copy">@Model.Description</p>
+<p>Tác giả: @Model.Author · Xuất bản: <time datetime="@Model.Published">@Model.Published</time> · Cập nhật: <time datetime="@Model.Updated">@Model.Updated</time></p>
+@if(Model.Sections.Sum(x=>x.Text.Length) > 700) { <nav aria-label="Mục lục"><h2>Mục lục</h2><ol>@foreach(var part in Model.Sections) { <li><a href="#@part.Id">@part.Title</a></li> }</ol></nav> }
+@foreach(var part in Model.Sections) { <section id="@part.Id"><h2 class="section-title">@part.Title</h2><p class="section-copy">@part.Text</p>@if(part.Code is not null) { <pre><code class="language-csharp">@part.Code</code></pre> }</section> }
+<aside><h2 class="section-title">Nội dung liên quan</h2>
+@foreach(var post in SeoContent.Posts.Where(x=>x.Slug != Model.Slug)) { <p><a href="/blog/@post.Slug">@post.Title</a></p> }
+<p><a href="/about">Về Duy Tú</a> · <a href="/projects">Dự án phần mềm</a> · <a href="/services">Dịch vụ</a> · <a href="/contact">Liên hệ</a></p></aside>
+</article></section><footer class="portfolio-section section-soft"><div class="section-inner"><partial name="_Footer" /></div></footer>

@@ -1,0 +1,12 @@
+@{ var section = ViewData["Section"] as string; }
+<section class="portfolio-section"><div class="section-inner">
+<nav aria-label="Đường dẫn"><a href="/">Trang chủ</a> / @ViewData["Title"]</nav>
+<h1 class="section-title">@(ViewData["Title"]?.ToString()?.Replace(" | Duy Tú", ""))</h1>
+<p class="section-copy">@ViewData["Description"]</p>
+@if(section == "about") { <partial name="_About" /><partial name="_Journey" /><partial name="_Technology" /> }
+@if(section == "projects") { <partial name="_Portfolio" /> }
+@if(section == "services") { <partial name="_Services" /> }
+@if(section == "contact") { <partial name="_Contact" /> }
+@if(section == "blog") { <div class="content-grid">@foreach(var post in SeoContent.Posts) { <article class="content-card"><h2 class="section-title"><a href="/blog/@post.Slug">@post.Title</a></h2><p class="section-copy">@post.Description</p><p>@post.Author · <time datetime="@post.Published">@post.Published</time></p></article> }</div> }
+</div></section>
+<footer class="portfolio-section section-soft"><div class="section-inner"><partial name="_Footer" /></div></footer>

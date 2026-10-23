@@ -17,6 +17,17 @@ app.UseStaticFiles(new StaticFileOptions
             $"public,max-age={(int)maxAge.TotalSeconds}{(hasVersion ? ",immutable" : string.Empty)}";
     }
 });
+app.Use(async (context, next) => {
+    if (HttpMethods.IsGet(context.Request.Method) || HttpMethods.IsHead(context.Request.Method)) {
+        var path = context.Request.Path.Value ?? "/";
+        if (!Path.HasExtension(path)) {
+            var normalized = path == "/" ? "/" : path.TrimEnd('/').ToLowerInvariant();
+            if (path != normalized) { context.Response.Redirect(normalized + context.Request.QueryString, permanent: true); return; }
+        }
+    }
+    await next();
+    if (context.Response.StatusCode >= 400) context.Response.Headers["X-Robots-Tag"] = "noindex";
+});
 app.UseRouting();
 app.MapControllers();
 app.Run();

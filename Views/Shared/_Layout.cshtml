@@ -2,20 +2,44 @@
 @{
     var zaloChatUrl = Configuration["Contact:ZaloUrl"];
     var messengerChatUrl = Configuration["Contact:MessengerUrl"];
-    var socialTitle = $"{ViewData["Title"]} - Duy Tú";
-    var socialDescription = ViewData["Description"] as string
-        ?? "Khám phá portfolio và các dự án của Duy Tú.";
-    var socialImageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Url.Content("~/img/duy-tu-coding-hero.webp")}";
-    var socialPageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Context.Request.PathBase}{Context.Request.Path}";
+    var socialTitle = ViewData["Title"] as string ?? "Duy Tú | Full-stack Developer .NET & ReactJS";
+    var socialDescription = ViewData["Description"] as string ?? "Portfolio của Duy Tú, Software Engineer và Full-stack Developer.";
+    var socialImageUrl = SeoContent.Origin + "/img/duy-tu-coding-hero.webp";
+    var socialPageUrl = SeoContent.Origin + Context.Request.Path;
+    var post = ViewData["Post"] as BlogPost;
+    var graph = new List<object> {
+        new Dictionary<string,object> { ["@type"]="Person", ["@id"]=SeoContent.Origin+"/#person", ["name"]="Duy Tú", ["url"]=SeoContent.Origin+"/about", ["jobTitle"]="Software Engineer & Full-stack Developer" },
+        new Dictionary<string,object> { ["@type"]="WebSite", ["@id"]=SeoContent.Origin+"/#website", ["url"]=SeoContent.Origin+"/", ["name"]="Duy Tú", ["inLanguage"]="vi" }
+    };
+    if (Context.Request.Path == "/about") {
+        graph.Add(new Dictionary<string,object> { ["@type"]="ProfilePage", ["@id"]=socialPageUrl+"#webpage", ["url"]=socialPageUrl, ["name"]=socialTitle, ["mainEntity"]=new Dictionary<string,string>{["@id"]=SeoContent.Origin+"/#person"} });
+    }
+    if (Context.Request.Path != "/") {
+        var crumbs = new List<object> { new Dictionary<string,object>{["@type"]="ListItem",["position"]=1,["name"]="Trang chủ",["item"]=SeoContent.Origin+"/"} };
+        var section = ViewData["Section"] as string;
+        if (Context.Request.Path.Value!.Trim('/').Contains('/') && section is not null) {
+            crumbs.Add(new Dictionary<string,object>{["@type"]="ListItem",["position"]=2,["name"]= section == "projects" ? "Dự án" : section == "services" ? "Dịch vụ" : "Blog",["item"]=SeoContent.Origin+"/"+section});
+        }
+        crumbs.Add(new Dictionary<string,object>{["@type"]="ListItem",["position"]=crumbs.Count+1,["name"]=socialTitle,["item"]=socialPageUrl});
+        graph.Add(new Dictionary<string,object>{["@type"]="BreadcrumbList",["itemListElement"]=crumbs});
+    }
+    if(post is not null) {
+        graph.Add(new Dictionary<string,object> { ["@type"]="BlogPosting",["headline"]=post.Title,["description"]=post.Description,["url"]=socialPageUrl,["mainEntityOfPage"]=socialPageUrl,["datePublished"]=post.Published+"T00:00:00+07:00",["dateModified"]=post.Updated+"T00:00:00+07:00",["author"]=new Dictionary<string,string>{["@type"]="Person",["@id"]=SeoContent.Origin+"/#person",["name"]=post.Author,["url"]=SeoContent.Origin+"/about"},["image"]=socialImageUrl,["inLanguage"]="vi" });
+    }
+    var structuredData = System.Text.Json.JsonSerializer.Serialize(new Dictionary<string,object> { ["@context"]="https://schema.org",["@graph"]=graph });
 }
 <!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>@ViewData["Title"] - Duy Tú</title>
+<title>@socialTitle</title>
+<link rel="canonical" href="@socialPageUrl" />
+<script type="application/ld+json">@Html.Raw(structuredData)</script>
 <meta name="description" content="@socialDescription" />
-<meta property="og:type" content="website" />
+<meta property="og:type" content="@(post is null ? "website" : "article")" />
+<meta property="og:locale" content="vi_VN" />
+<meta property="og:site_name" content="Duy Tú" />
 <meta property="og:title" content="@socialTitle" />
 <meta property="og:description" content="@socialDescription" />
 <meta property="og:url" content="@socialPageUrl" />
@@ -26,6 +50,7 @@
 <meta name="twitter:description" content="@socialDescription" />
 <meta name="twitter:image" content="@socialImageUrl" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&amp;family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <script>
 (() => {

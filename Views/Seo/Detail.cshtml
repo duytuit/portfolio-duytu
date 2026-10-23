@@ -1,0 +1,13 @@
+@model ContentPage
+@{ var part = ViewData["Section"] as string; }
+<section class="portfolio-section"><div class="section-inner">
+<nav aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/@part">@(part == "projects" ? "Dự án" : "Dịch vụ")</a> / @Model.Title</nav>
+<h1 class="section-title">@Model.Title</h1><p class="section-copy">@Model.Description</p>
+@if(!string.IsNullOrEmpty(Model.Image)) { <figure><img class="seo-detail-image" src="@Model.Image" width="@(Model.Slug == "logistics-management-platform" ? 1000 : Model.Slug == "real-time-data-platform" ? 600 : 900)" height="@(Model.Slug == "logistics-management-platform" ? 667 : Model.Slug == "manufacturing-management-system" ? 640 : Model.Slug == "real-time-data-platform" ? 450 : 600)" alt="@(Model.Slug == "logistics-management-platform" ? "Nhân viên xử lý công việc trên laptop tại văn phòng" : Model.Slug == "manufacturing-management-system" ? "Người dùng thao tác trên laptop bên cạnh cây xanh" : Model.Slug == "work-management-platform" ? "Màn hình hiển thị mã nguồn ứng dụng web" : "Laptop và bàn phím trong không gian tối")" /><figcaption>Ảnh minh họa, không phải ảnh chụp sản phẩm.</figcaption></figure> }
+<h2 class="section-title">Công nghệ và phạm vi</h2><p class="stack-label">@Model.Stack</p>
+<p class="section-copy">@Model.Description</p>
+<a class="text-action" href="/contact">Trao đổi nhu cầu phần mềm ↗</a>
+<h2 class="section-title">@(part == "projects" ? "Dự án khác" : "Dịch vụ liên quan")</h2>
+<ul>@foreach(var item in (part == "projects" ? SeoContent.Projects : SeoContent.Services).Where(x=>x.Slug != Model.Slug)) { <li><a href="/@part/@item.Slug">@item.Title</a></li> }</ul>
+<p><a href="/projects">Dự án</a> · <a href="/services">Dịch vụ</a> · <a href="/blog">Blog kỹ thuật</a></p>
+</div></section><footer class="portfolio-section section-soft"><div class="section-inner"><partial name="_Footer" /></div></footer>

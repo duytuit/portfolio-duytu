@@ -178,7 +178,7 @@ document.querySelectorAll('[data-editorial-photo]').forEach(image => {
 // Animate words without replacing line breaks, links or accented characters.
 if (window.gsap && 'IntersectionObserver' in window) {
   gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
-    const headings = [...document.querySelectorAll('.hero-copy h1, main .section-title')];
+    const headings = [...document.querySelectorAll('.hero-copy .hero-slogan, main .section-title')];
     const originals = new Map();
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {

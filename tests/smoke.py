@@ -38,7 +38,9 @@ paths=['/','/hireus','/app-development','/web-development','/seo-optimization','
 paths += ['/portfolio/'+p for p in ['app1','product1','brand1','book1','app2','book3','product3','book2','app3']]
 assets=set()
 for path in paths:
-    code, html, _=request(path)
+    code, html, headers=request(path)
+    if code == 301:
+        code, html, _=request(headers['Location'])
     check(code==200 and '<main>' in html, path)
     check(html.count('id="mobile-menu"')==1,'single navigation '+path)
     assets.update(Page(html).assets)

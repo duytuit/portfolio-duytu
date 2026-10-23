@@ -7,15 +7,14 @@ public class HomeController : Controller {
     private readonly TelegramNotifier telegram;
     public HomeController(SubmissionStore store, TelegramNotifier telegram) { this.store = store; this.telegram = telegram; }
     [HttpGet("/")] public IActionResult Index() => View();
-    [HttpGet("/hireus")] public IActionResult HireUs() => View();
-    [HttpGet("/app-development")] public IActionResult AppDevelopment() => ServicePage("App Development", "app-1.jpg", "Lorem doloribus ex quisquam. Nesciunt laborum laboriosam consequuntur, eum id molestias in, Nesciunt laborum laboriosam consequuntur, eum id molestias in.");
-    [HttpGet("/web-development")] public IActionResult WebDevelopment() => ServicePage("Web Development", "app-3.jpg");
-    [HttpGet("/seo-optimization")] public IActionResult Seo() => ServicePage("SEO Optimization", "app-1.jpg");
-    [HttpGet("/campagin-creation"), HttpGet("/campaign-creation")] public IActionResult Campaign() => ServicePage("Campaign Creation", "app-2.jpg");
-    private IActionResult ServicePage(string title, string image, string description = "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Amet necessitatibus laborum voluptatem at provident atque labore porro ipsam debitis quam, ad dolorem, corrupti aut praesentium minima sit deserunt maiores fuga?") => View("Service", new ServicePage(title, description, "/img/portfolio/" + image));
+    [HttpGet("/hireus")] public IActionResult HireUs() => RedirectPermanent("/contact");
+    [HttpGet("/app-development")] public IActionResult AppDevelopment() => RedirectPermanent("/services/software-engineering");
+    [HttpGet("/web-development")] public IActionResult WebDevelopment() => RedirectPermanent("/services/web-development");
+    [HttpGet("/seo-optimization")] public IActionResult Seo() => RedirectPermanent("/services");
+    [HttpGet("/campagin-creation"), HttpGet("/campaign-creation")] public IActionResult Campaign() => RedirectPermanent("/services");
     [HttpGet("/portfolio/{id}")] public IActionResult Project(string id) {
-        var images = new Dictionary<string, string> { ["app1"]="app-1.jpg", ["product1"]="product-1.jpg", ["brand1"]="branding-1.jpg", ["book1"]="books-1.jpg", ["app2"]="app-2.jpg", ["book3"]="books-3.jpg", ["product3"]="product-3.jpg", ["book2"]="books-2.jpg", ["app3"]="app-3.jpg" };
-        return images.TryGetValue(id, out var image) ? View(new ProjectPage("Project " + id, "/img/portfolio/" + image)) : NotFound();
+        var ids = new[]{"app1","product1","brand1","book1","app2","book3","product3","book2","app3"};
+        return ids.Contains(id) ? RedirectPermanent("/projects") : NotFound();
     }
     [HttpPost("/contact"), ValidateAntiForgeryToken]
     public async Task<IActionResult> Contact(ContactForm form) {
