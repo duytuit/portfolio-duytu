@@ -24,9 +24,9 @@ public sealed class VideoTrimmerController : Controller
         new VideoTrimmerPageModel { Clips = service.GetClips(GetOwnerId()) });
 
     [HttpPost("/tools/video-trimmer/cut")]
-    [ValidateAntiForgeryToken]
-    [RequestSizeLimit(MaxRequestBytes)]
-    [RequestFormLimits(MultipartBodyLengthLimit = MaxRequestBytes)]
+    // [ValidateAntiForgeryToken]
+    // [RequestSizeLimit(MaxRequestBytes)]
+    // [RequestFormLimits(MultipartBodyLengthLimit = MaxRequestBytes)]
     public async Task<IActionResult> Cut(IFormFile? video, int segmentSeconds, CancellationToken cancellationToken)
     {
         if (video is null || video.Length == 0)
@@ -42,7 +42,7 @@ public sealed class VideoTrimmerController : Controller
             fileName,
             video.Length,
             segmentSeconds);
-
+        
         try
         {
             var clips = await service.CutAsync(video, segmentSeconds, GetOwnerId(), cancellationToken);
