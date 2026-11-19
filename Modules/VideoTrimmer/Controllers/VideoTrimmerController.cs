@@ -31,22 +31,32 @@ public sealed class VideoTrimmerController : Controller
     {
         if (video is null || video.Length == 0)
         {
+            logger.LogWarning("Video cut request rejected because no video file was uploaded");
             TempData["Error"] = "Vui lòng chọn một video trước khi cắt.";
             return RedirectToAction(nameof(Index));
         }
 
+        var fileName = Path.GetFileName(video.FileName);
+        logger.LogInformation(
+            "Video cut requested for {FileName}, size {FileSizeBytes} bytes, segment length {SegmentSeconds} seconds",
+            fileName,
+            video.Length,
+            segmentSeconds);
+
         try
         {
             var clips = await service.CutAsync(video, segmentSeconds, GetOwnerId(), cancellationToken);
+            logger.LogInformation("Video cut completed for {FileName}; created {ClipCount} clips", fileName, clips.Count);
             TempData["Notice"] = $"Đã cắt video thành {clips.Count} đoạn.";
         }
         catch (InvalidDataException exception)
         {
+            logger.LogWarning(exception, "Video cut request rejected for {FileName}", fileName);
             TempData["Error"] = exception.Message;
         }
         catch (VideoProcessingException exception)
         {
-            logger.LogError(exception, "Video processing failed for upload {FileName}", Path.GetFileName(video.FileName));
+            logger.LogError(exception, "Video processing failed for upload {FileName}", fileName);
             TempData["Error"] = "Không cắt được video. Hãy kiểm tra cấu hình FFmpeg hoặc thử một tệp video khác.";
         }
 
@@ -66,10 +76,12 @@ public sealed class VideoTrimmerController : Controller
         try
         {
             var deleted = service.DeleteClips(ids, GetOwnerId());
+            logger.LogInformation("Deleted {ClipCount} video clips at user request", deleted);
             TempData["Notice"] = $"Đã xóa {deleted} video.";
         }
         catch (InvalidDataException exception)
         {
+            logger.LogWarning(exception, "Video clip deletion request rejected");
             TempData["Error"] = exception.Message;
         }
 

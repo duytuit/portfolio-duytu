@@ -1,6 +1,7 @@
 bin/
 obj/
 App_Data/
+Logs/
 .vs/
 *.user
 appsettings.Telegram.local.json
