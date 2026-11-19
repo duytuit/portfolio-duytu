@@ -64,6 +64,7 @@
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/lib/aos/aos.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/interactions.css" asp-append-version="true" />
+@await RenderSectionAsync("Styles", required: false)
 </head>
 <body class="secondary-font @(ViewData["HeroNavigation"] is true ? "hero-navigation" : "")">
 <div class="reading-progress" aria-hidden="true"><span data-reading-progress></span></div>
@@ -119,5 +120,6 @@ else
 <script src="~/lib/gsap/gsap.min.js" asp-append-version="true" defer></script>
 <script src="~/js/site.js" asp-append-version="true" defer>
 </script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

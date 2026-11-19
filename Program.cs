@@ -1,10 +1,14 @@
 using PortfolioMvc.Services;
+using PortfolioMvc.Modules.VideoTrimmer;
+using PortfolioMvc.Modules.TikTok;
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.Telegram.local.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<SubmissionStore>();
 builder.Services.AddSingleton<TelegramNotifier>();
+builder.Services.AddVideoTrimmerModule(builder.Configuration);
+builder.Services.AddTikTokModule(builder.Configuration);
 var app = builder.Build();
 if (!app.Environment.IsDevelopment()) { app.UseExceptionHandler("/error"); app.UseHsts(); }
 app.UseStaticFiles(new StaticFileOptions

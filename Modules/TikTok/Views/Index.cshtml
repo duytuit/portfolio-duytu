@@ -1,0 +1,69 @@
+@model IReadOnlyList<PortfolioMvc.Modules.TikTok.Models.TikTokJob>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Tải video TikTok | Duy Tú";
+    ViewData["Description"] = "Tải video TikTok bạn sở hữu hoặc được phép sử dụng.";
+}
+
+@section Styles { <link rel="stylesheet" href="~/css/tiktok-downloader.css" asp-append-version="true" /> }
+
+<section class="tiktok-tool">
+    <div class="tiktok-tool__inner">
+        <p class="tiktok-tool__eyebrow">CÔNG CỤ VIDEO</p>
+        <h1>Tải video TikTok</h1>
+        <p class="tiktok-tool__intro">Dán liên kết để xem metadata, tải MP4 gốc hoặc xử lý vùng do bạn chọn bằng ProPainter.</p>
+
+        <form class="tiktok-tool__form" data-tiktok-form>
+            @Html.AntiForgeryToken()
+            <label for="tiktok-url">Liên kết video TikTok</label>
+            <div class="tiktok-tool__url-row">
+                <input id="tiktok-url" name="url" type="url" placeholder="https://www.tiktok.com/@@user/video/..." autocomplete="url" required />
+                <button type="button" class="tiktok-tool__button tiktok-tool__button--quiet" data-paste>Paste</button>
+                <button type="submit" class="tiktok-tool__button" data-info>Kiểm tra video</button>
+            </div>
+            <label class="tiktok-tool__consent"><input type="checkbox" name="rights" required /> <span>Tôi sở hữu video này hoặc được chủ sở hữu cho phép tải và sử dụng.</span></label>
+            <label class="tiktok-tool__consent"><input type="checkbox" name="removeWatermark" data-ai-toggle /> <span>Khử vùng đã chọn bằng ProPainter AI</span></label>
+            <p class="tiktok-tool__notice">Chế độ AI cần ba checkpoint trong weights của repo ProPainter hoặc App_Data/TikTok/ProPainterRuntime/weights và vùng watermark được chọn trên ảnh. Máy hiện chạy AI bằng CPU nên xử lý lâu; mặc định giảm cạnh dài xuống 256 px để tiết kiệm thời gian, video kết quả sẽ có độ phân giải thấp hơn. Mask tĩnh áp dụng toàn bộ clip; phát hiện tự động chưa được cấu hình.</p>
+            <p class="tiktok-tool__form-error" data-form-error role="alert"></p>
+        </form>
+
+        <section class="tiktok-tool__preview" data-preview hidden aria-live="polite">
+            <div class="tiktok-tool__stage" data-stage>
+                <img data-thumbnail alt="Ảnh thu nhỏ video" hidden draggable="false" />
+                <div class="tiktok-tool__selection" data-selection hidden></div>
+            </div>
+            <div class="tiktok-tool__preview-copy">
+                <h2 data-title></h2>
+                <p data-meta></p>
+                <p class="tiktok-tool__region-hint" data-region-hint hidden>Kéo trên ảnh để chọn vùng cần AI tái tạo.</p>
+                <button type="button" class="tiktok-tool__button tiktok-tool__button--quiet" data-clear-region hidden>Xóa vùng chọn</button>
+                <button type="button" class="tiktok-tool__button" data-download>Tạo tác vụ tải</button>
+            </div>
+        </section>
+
+        <section class="tiktok-tool__progress" data-progress hidden aria-live="polite">
+            <div class="tiktok-tool__progress-head"><strong data-status>Đang chờ</strong><span data-percent></span></div>
+            <div class="tiktok-tool__track"><span data-bar></span></div>
+            <p data-error role="alert"></p>
+            <button type="button" class="tiktok-tool__button tiktok-tool__button--quiet" data-cancel>Hủy tác vụ</button>
+            <video class="tiktok-tool__output" data-output-video controls playsinline hidden></video>
+            <a class="tiktok-tool__button" data-result hidden>Tải MP4</a>
+        </section>
+
+        <section class="tiktok-tool__history">
+            <div class="tiktok-tool__history-heading"><div><h2>Lịch sử phiên này</h2><p>Tác vụ được lưu trong bộ nhớ ứng dụng và mất khi máy chủ khởi động lại.</p></div></div>
+            <div class="tiktok-tool__history-list" data-history>
+                @foreach (var job in Model)
+                {
+                    <div class="tiktok-tool__history-item">
+                        <span>@job.CreatedUtc.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</span>
+                        <strong>@job.Status</strong>
+                        @if (job.DownloadUrl is not null) { <a href="@job.DownloadUrl">Tải MP4</a> }
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</section>
+
+@section Scripts { <script src="~/js/tiktok-downloader.js" asp-append-version="true" defer></script> }
