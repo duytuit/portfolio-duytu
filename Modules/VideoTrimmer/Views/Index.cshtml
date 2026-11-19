@@ -106,7 +106,7 @@
                                         <input class="video-tool__clip-checkbox" type="checkbox" name="ids" value="@clip.Id" aria-label="Chọn đoạn @clip.ClipNumber của @clip.OriginalFileName" />
                                     </td>
                                     <td>
-                                        <span class="video-tool__filename">@clip.OriginalFileName</span>
+                                        <span class="video-tool__filename">@($"{System.IO.Path.GetFileNameWithoutExtension(clip.OriginalFileName)}_part_{clip.ClipNumber:D3}.mp4")</span>
                                         <span class="video-tool__subtext">CLIP @clip.ClipNumber.ToString("D3")</span>
                                     </td>
                                     <td>@clip.DurationSeconds.ToString("0.##") giây</td>

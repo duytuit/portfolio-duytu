@@ -25,6 +25,7 @@ public sealed class VideoTrimmerService
     private readonly string storagePath;
     private readonly VideoTrimmerOptions options;
     private readonly ILogger<VideoTrimmerService> logger;
+    private readonly SemaphoreSlim encodingSlots;
 
     public VideoTrimmerService(
         IWebHostEnvironment environment,
@@ -34,6 +35,7 @@ public sealed class VideoTrimmerService
         storagePath = Path.Combine(environment.ContentRootPath, "App_Data", "VideoTrimmer");
         this.options = options.Value;
         this.logger = logger;
+        encodingSlots = new SemaphoreSlim(Math.Clamp(this.options.MaxConcurrentJobs, 1, 4));
     }
 
     public IReadOnlyList<VideoClip> GetClips(string ownerId)
@@ -92,23 +94,35 @@ public sealed class VideoTrimmerService
                 throw new InvalidDataException("Video tạo ra quá 500 đoạn. Hãy tăng số giây mỗi đoạn.");
 
             var outputPattern = Path.Combine(workDirectory, "clip_%03d.mp4");
-            var result = await RunProcessAsync(
-                options.FfmpegPath,
-                workDirectory,
-                new[]
-                {
-                    "-hide_banner", "-loglevel", "error", "-nostdin", "-y",
-                    "-i", inputPath,
-                    "-map", "0:v:0", "-map", "0:a?",
-                    "-sn", "-dn",
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
-                    "-c:a", "aac", "-b:a", "128k",
-                    "-force_key_frames", $"expr:gte(t,n_forced*{segmentSeconds})",
-                    "-f", "segment", "-segment_time", segmentSeconds.ToString(CultureInfo.InvariantCulture),
-                    "-segment_start_number", "1", "-reset_timestamps", "1",
-                    "-segment_format", "mp4", outputPattern
-                },
-                cancellationToken);
+            await encodingSlots.WaitAsync(cancellationToken);
+            ProcessResult result;
+            try
+            {
+                result = await RunProcessAsync(
+                    options.FfmpegPath,
+                    workDirectory,
+                    new[]
+                    {
+                        "-hide_banner", "-loglevel", "error", "-nostdin", "-y",
+                        "-i", inputPath,
+                        "-map", "0:v:0", "-map", "0:a?",
+                        "-sn", "-dn",
+                        "-c:v", "libx264", "-threads:v", Math.Clamp(options.EncoderThreads, 1, 8).ToString(CultureInfo.InvariantCulture),
+                        "-sc_threshold", "0",
+                        "-preset", "veryfast", "-crf", "23", "-pix_fmt", "yuv420p",
+                        "-c:a", "aac", "-b:a", "128k",
+                        "-force_key_frames", $"expr:gte(t,n_forced*{segmentSeconds})",
+                        "-f", "segment", "-segment_time", segmentSeconds.ToString(CultureInfo.InvariantCulture),
+                        "-segment_time_delta", "0.05",
+                        "-segment_start_number", "1", "-reset_timestamps", "1",
+                        "-segment_format", "mp4", outputPattern
+                    },
+                    cancellationToken);
+            }
+            finally
+            {
+                encodingSlots.Release();
+            }
 
             if (result.ExitCode != 0)
                 throw new VideoProcessingException("FFmpeg không thể xử lý video.", result.StandardError);
