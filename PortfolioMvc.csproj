@@ -10,6 +10,8 @@
   </Content>
   <Content Remove="App_Data\**\*" />
   <None Remove="App_Data\**\*" />
+  <Content Remove="publish\**\*" />
+  <None Remove="publish\**\*" />
 </ItemGroup>
 <Target Name="CreateLogsDirectory" AfterTargets="Publish">
   <MakeDir Directories="$(PublishDir)Logs" />
