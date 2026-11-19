@@ -8,6 +8,8 @@
   <Content Update="web.config">
     <CopyToPublishDirectory>Always</CopyToPublishDirectory>
   </Content>
+  <Content Remove="App_Data\**\*" />
+  <None Remove="App_Data\**\*" />
 </ItemGroup>
 <Target Name="CreateLogsDirectory" AfterTargets="Publish">
   <MakeDir Directories="$(PublishDir)Logs" />
